@@ -46,8 +46,9 @@ def run_cam(video_path, scale_factor=0.07, noise_level=0.2, compression_quality=
                 break
             
             ret, frame = cap.read()
-            if not ret:
-                break
+            if not ret: # Video probably ended, restart from the beginning 
+                cap.set(cv2.CAP_PROP_POS_FRAMES, 0) 
+                continue
             
             # Randomly decide whether or not to drop the frame (simulate network stutter)
             if random.random() < drop_rate:
